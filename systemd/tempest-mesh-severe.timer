@@ -1,0 +1,11 @@
+[Unit]
+Description=tempest-mesh: severe-weather watcher (every 30 minutes)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=30min
+RandomizedDelaySec=45s
+Unit=tempest-mesh-severe.service
+
+[Install]
+WantedBy=timers.target

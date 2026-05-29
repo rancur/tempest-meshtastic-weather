@@ -1,0 +1,13 @@
+[Unit]
+Description=tempest-mesh: severe-weather watcher (NWS + Open-Meteo)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User={user}
+WorkingDirectory={working_dir}
+EnvironmentFile=-{working_dir}/.env
+ExecStart={binary} watch-forecast
+Nice=10
+TimeoutStartSec=180

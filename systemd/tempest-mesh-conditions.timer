@@ -1,0 +1,14 @@
+[Unit]
+Description=tempest-mesh: hourly Tempest conditions broadcast
+
+[Timer]
+# Top of every hour.
+OnCalendar=hourly
+# If we missed a window (host was off), fire as soon as we're back.
+Persistent=true
+# Small jitter so multiple hosts don't all hit the same endpoint at :00.
+RandomizedDelaySec=30s
+Unit=tempest-mesh-conditions.service
+
+[Install]
+WantedBy=timers.target

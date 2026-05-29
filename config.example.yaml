@@ -1,0 +1,80 @@
+# tempest-meshtastic-weather — example config
+# Copy to config.yaml (gitignored) and edit. Environment variables override these values.
+
+tempest:
+  # One of: cloud | udp | garden_api
+  source: cloud
+
+  # cloud (WeatherFlow REST) ----------------
+  # Get a personal token from https://tempestwx.com/settings/tokens
+  api_token: "${TEMPEST_API_TOKEN}"
+  station_id: "${TEMPEST_STATION_ID}"
+
+  # udp (local Hub broadcast on port 50222) -
+  udp_port: 50222
+  udp_listen_seconds: 60
+
+  # garden_api (optional, shared HTTP listener that owns the UDP socket) ---
+  # See docs/CONFIGURATION.md
+  garden_api_url: ""
+  local_token: ""
+
+meshmonitor:
+  url: "http://localhost:8080"
+  api_token: "${MESHMONITOR_API_TOKEN}"
+  channel_index: 0
+
+  # Retry envelope for the MeshMonitor POST
+  retry_max_attempts: 3
+  retry_sleep_seconds: 30
+  retry_timeout_seconds: 15
+
+location:
+  # fixed | from_meshmonitor
+  strategy: fixed
+
+  name: "Home"
+
+  # Required when strategy=fixed
+  lat: null
+  lon: null
+
+  # Required when strategy=from_meshmonitor
+  # Set this to your locally-attached Meshtastic node's nodeId (e.g. "!12ab34cd").
+  # See `tempest-mesh doctor` to list your candidate nodes.
+  meshmonitor_node_id: ""
+  position_max_age_seconds: 86400  # 24h — refuse to broadcast on stale GPS
+
+message:
+  # Imperial = °F + mph + inches | Metric = °C + km/h + mm
+  units: imperial
+  location_label_max_chars: 15
+  message_max_chars: 200
+
+severe_alerter:
+  enabled: true
+
+  # The User-Agent NWS requires you to identify yourself with.
+  # See https://www.weather.gov/documentation/services-web-api
+  nws_user_agent: "tempest-meshtastic-weather (set-me@example.com)"
+
+  # Channel to broadcast severe alerts on. Usually the primary channel.
+  channel_index: 0
+
+  # NWS alert dedupe — don't re-broadcast the same alert id within this window
+  dedup_ttl_hours: 6
+
+  # 4-6h forecast-lead "rain coming, secure camp" warning
+  forecast_lead_hours: 6
+  forecast_lead_debounce_seconds: 3600
+  heavy_rain_mm_per_hr: 2.0
+  min_rain_mm: 0.1
+
+  # Current-rain "it's raining right now" debounce
+  current_rain_debounce_seconds: 1800
+
+  # Heartbeat + dedup state files live here
+  state_dir: "./state"
+
+logging:
+  level: INFO
