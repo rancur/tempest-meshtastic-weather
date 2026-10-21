@@ -188,15 +188,15 @@ def test_forecast_lead_below_threshold():
 
 
 # --- orchestrator end-to-end ------------------------------------------------
-def test_run_once_disabled_returns_skipped(fixed_glendale_config, tmp_path):
-    fixed_glendale_config.severe_alerter.enabled = False
-    fixed_glendale_config.severe_alerter.state_dir = str(tmp_path)
-    result = run_once(fixed_glendale_config, 33.5, -112.2, "X")
+def test_run_once_disabled_returns_skipped(fixed_location_config, tmp_path):
+    fixed_location_config.severe_alerter.enabled = False
+    fixed_location_config.severe_alerter.state_dir = str(tmp_path)
+    result = run_once(fixed_location_config, 33.5, -112.2, "X")
     assert result.skipped_reason == "severe_alerter_disabled"
 
 
-def test_run_once_dry_run_no_post(fixed_glendale_config, tmp_path, nws_active_alerts_payload):
-    fixed_glendale_config.severe_alerter.state_dir = str(tmp_path)
+def test_run_once_dry_run_no_post(fixed_location_config, tmp_path, nws_active_alerts_payload):
+    fixed_location_config.severe_alerter.state_dir = str(tmp_path)
     with requests_mock.Mocker() as m:
         m.get("https://api.weather.gov/alerts/active", json=nws_active_alerts_payload)
         # All Open-Meteo requests return "no rain"
@@ -207,14 +207,14 @@ def test_run_once_dry_run_no_post(fixed_glendale_config, tmp_path, nws_active_al
                 "current": {"precipitation": 0},
             },
         )
-        result = run_once(fixed_glendale_config, 33.5, -112.2, "Anytown", dry_run=True)
+        result = run_once(fixed_location_config, 33.5, -112.2, "Anytown", dry_run=True)
         # NWS alert went through (dry-run still records "sent")
         assert len(result.sent) == 1
         assert "Severe Thunderstorm Warning" in result.sent[0]
 
 
-def test_run_once_nws_failure_does_not_abort_run(fixed_glendale_config, tmp_path):
-    fixed_glendale_config.severe_alerter.state_dir = str(tmp_path)
+def test_run_once_nws_failure_does_not_abort_run(fixed_location_config, tmp_path):
+    fixed_location_config.severe_alerter.state_dir = str(tmp_path)
     with requests_mock.Mocker() as m:
         m.get("https://api.weather.gov/alerts/active", status_code=500)
         m.get(
@@ -224,6 +224,6 @@ def test_run_once_nws_failure_does_not_abort_run(fixed_glendale_config, tmp_path
                 "current": {"precipitation": 0},
             },
         )
-        result = run_once(fixed_glendale_config, 33.5, -112.2, "X", dry_run=True)
+        result = run_once(fixed_location_config, 33.5, -112.2, "X", dry_run=True)
         # No exception — quiet pass
         assert result.sent == []
