@@ -17,7 +17,7 @@ def minimal_config() -> AppConfig:
 
 
 @pytest.fixture
-def fixed_glendale_config() -> AppConfig:
+def fixed_location_config() -> AppConfig:
     """Fixed-location config wired to a stub MeshMonitor + cloud Tempest."""
     cfg = AppConfig()
     cfg.tempest.source = "cloud"

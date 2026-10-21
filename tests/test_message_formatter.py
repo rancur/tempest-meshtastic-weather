@@ -119,12 +119,12 @@ def test_format_conditions_imperial():
     )
     msg = format_conditions_message(
         obs,
-        location="Glendale",
+        location="Springfield",
         config=cfg,
         now=datetime(2026, 5, 29, 9, 0, 0),
     )
     # Verify all the parts
-    assert "WX Glendale 9AM" in msg
+    assert "WX Springfield 9AM" in msg
     assert "53°F" in msg
     assert "Sunny" in msg
     assert "Wind 6 mph E" in msg
