@@ -7,7 +7,7 @@
 > Auto-broadcast Tempest WeatherFlow conditions + severe-weather alerts to your Meshtastic mesh via MeshMonitor.
 
 ```
-WX Glendale 9AM: 53°F Sunny ☀️ | Wind 6 mph E | RH 93% | UV 0
+WX Home 9AM: 53°F Sunny ☀️ | Wind 6 mph E | RH 93% | UV 0
 ```
 
 ```
@@ -101,9 +101,9 @@ Environment variables override YAML — rotate tokens without touching files.
 ### Current conditions (hourly)
 
 ```
-WX Glendale 9AM: 53°F Sunny ☀️ | Wind 6 mph E | RH 93% | UV 0
-WX Glendale 3PM: 92°F Sunny ☀️ | Wind 12 mph SSW | RH 18% | UV 11
-WX Glendale 11PM: 72°F Clear 🌙 | Wind 3 mph N | RH 35%
+WX Home 9AM: 53°F Sunny ☀️ | Wind 6 mph E | RH 93% | UV 0
+WX Home 3PM: 92°F Sunny ☀️ | Wind 12 mph SSW | RH 18% | UV 11
+WX Home 11PM: 72°F Clear 🌙 | Wind 3 mph N | RH 35%
 ```
 
 - Imperial units by default (configurable to metric).

@@ -104,10 +104,10 @@ def format_conditions_message(
     """Render the conditions broadcast (one line, ≤200 bytes by default).
 
     Imperial example:
-        ``WX Glendale 9AM: 53°F Sunny ☀️ | Wind 6 mph E | RH 93% | UV 0``
+        ``WX Home 9AM: 53°F Sunny ☀️ | Wind 6 mph E | RH 93% | UV 0``
 
     Metric example:
-        ``WX Glendale 9AM: 12°C Sunny ☀️ | Wind 10 km/h E | RH 93% | UV 0``
+        ``WX Home 9AM: 12°C Sunny ☀️ | Wind 10 km/h E | RH 93% | UV 0``
     """
     location_label = _truncate_label(location, config.location_label_max_chars)
     time_str = format_time(now)
